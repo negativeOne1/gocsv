@@ -104,7 +104,7 @@ func (um *Unmarshaller) unmarshalRow(row []string, unmatched map[string]string) 
 	outValue := createNewOutInner(isPointer, concreteOutType)
 	for j, csvColumnContent := range row {
 		if fieldInfo, ok := um.fieldInfoMap[j]; ok {
-			if err := setInnerField(&outValue, isPointer, fieldInfo.IndexChain, csvColumnContent, fieldInfo.omitEmpty); err != nil { // Set field of struct
+			if err := setInnerField(&outValue, isPointer, fieldInfo.IndexChain, csvColumnContent, fieldInfo.omitEmpty, fieldInfo.required); err != nil { // Set field of struct
 				return nil, fmt.Errorf("cannot assign field at %v to %s through index chain %v: %v", j, outValue.Type(), fieldInfo.IndexChain, err)
 			}
 		} else if unmatched != nil {

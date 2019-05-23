@@ -192,7 +192,10 @@ func toFloat(in interface{}) (float64, error) {
 	return 0, fmt.Errorf("No known conversion from " + inValue.Type().String() + " to float")
 }
 
-func setField(field reflect.Value, value string, omitEmpty bool) error {
+func setField(field reflect.Value, value string, omitEmpty bool, required bool) error {
+	if value == "" && required {
+		return fmt.Errorf("Required field is empty.")
+	}
 	if field.Kind() == reflect.Ptr {
 		if omitEmpty && value == "" {
 			return nil

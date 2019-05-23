@@ -90,3 +90,8 @@ type InnerStruct struct {
 	BoolField1       bool   `csv:"boolField1"`
 	StringField2     string `csv:"stringField2"`
 }
+
+type RequiredFieldStruct struct {
+	StringField1 string `csv:"stringField1,required"`
+	StringField2 string `csv:"stringField2"`
+}

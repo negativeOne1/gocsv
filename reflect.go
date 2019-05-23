@@ -19,6 +19,7 @@ type structInfo struct {
 type fieldInfo struct {
 	keys       []string
 	omitEmpty  bool
+	required   bool
 	IndexChain []int
 }
 
@@ -85,7 +86,7 @@ func getFieldInfos(rType reflect.Type, parentIndexChain []int) []fieldInfo {
 			continue
 		}
 
-		fieldInfo := fieldInfo{IndexChain: indexChain}
+		fieldInfo := fieldInfo{IndexChain: indexChain, required: false}
 		fieldTag := field.Tag.Get("csv")
 		fieldTags := strings.Split(fieldTag, TagSeparator)
 		filteredTags := []string{}
@@ -94,6 +95,9 @@ func getFieldInfos(rType reflect.Type, parentIndexChain []int) []fieldInfo {
 				filteredTags = append(filteredTags, fieldTagEntry)
 			} else {
 				fieldInfo.omitEmpty = true
+			}
+			if fieldTagEntry == "required" {
+				fieldInfo.required = true
 			}
 		}
 

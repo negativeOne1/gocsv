@@ -655,3 +655,15 @@ func TestUnmarshalCSVWithoutHeaders(t *testing.T) {
 		t.Fatalf("expected second sample %v, got %v", expected, samples[1])
 	}
 }
+
+func TestRequiredField(t *testing.T) {
+	b := bytes.NewBufferString(`stringField1,stringField2
+foo,bar
+,bar`)
+	d := &decoder{in: b}
+
+	var samples []RequiredFieldStruct
+	if err := readTo(d, &samples); err == nil {
+		t.Fatalf("Expected error from bad input, got: %+v", samples)
+	}
+}
